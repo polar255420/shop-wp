@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Anarchy Xperiment — Servidor de Minecraft. Habilidades, Custom Enchants y Comandos.">
+<title>ANARCHY XPERIMENT — Catálogo</title>
+<style>
+  :root{
+    --sans:"Helvetica Neue",Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,"Courier New",monospace;
+    --line:rgba(255,255,255,.14);
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:#000;color:#fff;font-family:var(--mono);
+    line-height:1.6;letter-spacing:.02em;overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(circle at 50% 35%,#000 10%,transparent 75%);
+    mask-image:radial-gradient(circle at 50% 35%,#000 10%,transparent 75%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:2;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(255,255,255,.028) 0 1px,transparent 1px 4px);
+  }
+  #bg{position:fixed;inset:0;z-index:0;pointer-events:none;display:block}
+  #progress{
+    position:fixed;top:0;left:0;right:0;height:2px;z-index:30;
+    background:#fff;transform:scaleX(0);transform-origin:0 50%;
+    will-change:transform;
+  }
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:20;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px clamp(16px,4vw,48px);
+    background:linear-gradient(180deg,rgba(0,0,0,.92),rgba(0,0,0,0));
+  }
+  .brand{
+    font-family:var(--sans);font-weight:900;font-size:15px;
+    letter-spacing:.22em;display:flex;align-items:center;gap:9px;
+  }
+  .brand i{width:7px;height:7px;background:#fff;display:block;animation:blink 1.6s steps(2) infinite}
+  @keyframes blink{50%{opacity:.15}}
+  .links{display:flex;gap:clamp(14px,2.6vw,32px)}
+  .links a{
+    color:rgba(255,255,255,.55);text-decoration:none;
+    font-size:10px;letter-spacing:.24em;position:relative;padding:4px 0;
+    transition:color .3s;
+  }
+  .links a::after{
+    content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+    background:#fff;transform:scaleX(0);transform-origin:0 50%;transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .links a:hover{color:#fff}
+  .links a:hover::after{transform:scaleX(1)}
+  main{position:relative;z-index:3}
+  .hero{
+    min-height:100svh;display:grid;place-items:center;
+    padding:130px clamp(16px,4vw,48px) 90px;text-align:center;
+  }
+  .eyebrow{
+    font-size:clamp(.58rem,1.8vw,.72rem);letter-spacing:.55em;
+    color:rgba(255,255,255,.5);margin-bottom:clamp(18px,3vw,30px);
+    text-transform:uppercase;
+  }
+  .hero-title{
+    font-family:var(--sans);font-weight:900;text-transform:uppercase;
+    font-size:clamp(2rem,10vw,7rem);line-height:.9;letter-spacing:-.035em;
+  }
+  .hero-title span{display:block;position:relative}
+  .glitch::before,.glitch::after{
+    content:attr(data-text);position:absolute;inset:0;pointer-events:none;opacity:0;
+  }
+  .glitch::before{animation:g1 4.2s infinite steps(1)}
+  .glitch::after{animation:g2 5.6s infinite steps(1)}
+  @keyframes g1{
+    0%,100%{opacity:0;transform:translate(0)}
+    3%{opacity:.75;transform:translate(-4px,1px)}
+    5%{opacity:.25;transform:translate(4px,-1px)}
+    7%{opacity:0;transform:translate(0)}
+    48%{opacity:0}
+    50%{opacity:.6;transform:translate(3px,0)}
+    52%{opacity:0}
+  }
+  @keyframes g2{
+    0%,100%{opacity:0;transform:translate(0)}
+    22%{opacity:.45;transform:translate(4px,-2px)}
+    24%{opacity:0}
+    76%{opacity:.5;transform:translate(-3px,2px)}
+    78%{opacity:0}
+  }
+  .sub{
+    margin-top:clamp(20px,3.5vw,32px);color:rgba(255,255,255,.6);
+    font-size:clamp(.74rem,2.1vw,.92rem);letter-spacing:.16em;
+  }
+  .cta{
+    display:inline-flex;align-items:center;gap:14px;margin-top:clamp(30px,5vw,48px);
+    border:1px solid #fff;color:#fff;text-decoration:none;
+    padding:14px 32px;font-size:11px;letter-spacing:.28em;
+    transition:background .3s,color .3s,transform .3s;
+  }
+  .cta span{display:block;animation:down 1.8s ease-in-out infinite}
+  @keyframes down{50%{transform:translateY(4px)}}
+  .cta:hover{background:#fff;color:#000;transform:translateY(-2px)}
+  .section{
+    max-width:1220px;margin:0 auto;
+    padding:clamp(70px,11vh,130px) clamp(16px,4vw,48px);
+    scroll-margin-top:90px;
+  }
+  .sec-head{display:flex;align-items:center;gap:clamp(12px,2vw,22px);margin-bottom:clamp(30px,5vw,54px)}
+  .sec-head .idx{font-size:11px;letter-spacing:.3em;color:rgba(255,255,255,.42);white-space:nowrap}
+  .sec-head h2{
+    font-family:var(--sans);font-weight:900;text-transform:uppercase;
+    font-size:clamp(1.45rem,5vw,3rem);letter-spacing:-.02em;white-space:nowrap;
+  }
+  .sec-head .rule{flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.65),transparent)}
+  .grid{display:grid;gap:clamp(12px,1.8vw,20px)}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+  .card{
+    position:relative;overflow:hidden;
+    padding:clamp(20px,2.6vw,30px);
+    border:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.008));
+    transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .4s,background .4s,box-shadow .4s;
+  }
+  .card::before{
+    content:"";position:absolute;top:0;left:-120%;width:70%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);
+    transform:skewX(-18deg);transition:left .75s cubic-bezier(.2,.8,.2,1);
+    pointer-events:none;
+  }
+  .card::after{
+    content:"";position:absolute;top:0;right:0;width:15px;height:15px;
+    border-top:1px solid #fff;border-right:1px solid #fff;
+    opacity:0;transition:opacity .35s;pointer-events:none;
+  }
+  .card:hover{
+    transform:translateY(-6px);border-color:#fff;background:rgba(255,255,255,.075);
+    box-shadow:0 0 0 1px rgba(255,255,255,.5),0 26px 60px -26px rgba(255,255,255,.55);
+  }
+  .card:hover::before{left:130%}
+  .card:hover::after{opacity:1}
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:10px;letter-spacing:.26em;color:rgba(255,255,255,.42);
+    margin-bottom:clamp(14px,2vw,20px);
+  }
+  .badge{
+    border:1px solid rgba(255,255,255,.32);padding:3.75px 11.25px;
+    font-size:12.5px;letter-spacing:.26em;font-weight:700;
+    color:#fff;transition:background .3s,color .3s,border-color .3s;
+  }
+  .card:hover .badge{background:#fff;color:#000;border-color:#fff}
+  .card h3{
+    font-family:var(--sans);font-weight:800;text-transform:uppercase;
+    font-size:clamp(1rem,2.4vw,1.22rem);letter-spacing:-.01em;margin-bottom:10px;
+  }
+  .card p{font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.7}
+  .cmd-name{
+    font-family:var(--mono)!important;font-weight:400!important;
+    text-transform:none!important;font-size:clamp(1.5rem,4.5vw,2.1rem)!important;
+    letter-spacing:-.02em!important;
+  }
+  footer{
+    position:relative;z-index:3;border-top:1px solid rgba(255,255,255,.12);
+    padding:38px clamp(16px,4vw,48px);
+    display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
+    font-size:10px;letter-spacing:.24em;color:rgba(255,255,255,.38);
+  }
+  .reveal{
+    opacity:0;transform:translateY(26px);
+    transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .reveal.in{opacity:1;transform:none}
+  @media (max-width:600px){
+    .links{gap:12px}
+    .links a{font-size:9px;letter-spacing:.16em}
+    .sec-head .idx{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<div id="progress"></div>
+
+<nav>
+  <div class="brand">AX<i></i></div>
+  <div class="links">
+    <a href="#habilidades">HABILIDADES</a>
+    <a href="#enchants">ENCHANTS</a>
+    <a href="#comandos">COMANDOS</a>
+  </div>
+</nav>
+
+<main>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Minecraft Server · Anarchy</p>
+      <h1 class="hero-title">
+        <span class="glitch" data-text="ANARCHY">ANARCHY</span>
+        <span class="glitch" data-text="XPERIMENT">XPERIMENT</span>
+      </h1>
+      <p class="sub">Sin reglas. Sin piedad. Solo habilidad.</p>
+      <a class="cta" href="#habilidades">EXPLORAR <span>▼</span></a>
+    </div>
+  </header>
+
+  <section class="section" id="habilidades">
+    <div class="sec-head reveal">
+      <span class="idx">01</span>
+      <h2>HABILIDADES</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="grid g3">
+      <article class="card reveal">
+        <div class="card-head"><span>01</span><span class="badge">5 USD</span></div>
+        <h3>Fancy Brewer</h3>
+        <p>Máquina automática de pociones. Prepara, combina y almacena pociones sin intervención manual, con resultados perfectos en cada lote.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-head"><span>02</span><span class="badge">10 USD</span></div>
+        <h3>Rage Star x64</h3>
+        <p>Te teletransporta al último jugador que te golpeó. La venganza llega en un instante, sin importar dónde se esconda.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-head"><span>03</span><span class="badge">10 USD</span></div>
+        <h3>Reverse Star x64</h3>
+        <p>Teletransporta al último jugador que te golpeó a tu posición actual. Invierte el juego y obliga a tu rival a pelear en tu terreno.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="enchants">
+    <div class="sec-head reveal">
+      <span class="idx">02</span>
+      <h2>CUSTOM ENCHANTS</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="grid g3">
+      <article class="card reveal">
+        <div class="card-head"><span>01</span><span class="badge">5 USD</span></div>
+        <h3>Resistencia I</h3>
+        <p>5% de probabilidad al recibir un golpe en PvP de obtener Resistencia I durante 5 segundos.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-head"><span>02</span><span class="badge">5 USD</span></div>
+        <h3>Poison IV</h3>
+        <p>10% de probabilidad al golpear con espada en PvP de infligir Veneno IV durante 6 segundos.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-head"><span>03</span><span class="badge">5 USD</span></div>
+        <h3>Implants II</h3>
+        <p>Reduce el daño recibido de ataques de jugadores un 10% mientras lleves puesta esta armadura.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-head"><span>04</span><span class="badge">5 USD</span></div>
+        <h3>Wither III</h3>
+        <p>3% de probabilidad al golpear con espada en PvP de infligir Wither III durante 4 segundos.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-head"><span>05</span><span class="badge">8 USD</span></div>
+        <h3>Mask II</h3>
+        <p>2% de probabilidad al golpear con espada en PvP de retirar el casco del enemigo durante 4 segundos y luego devolverlo.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-head"><span>06</span><span class="badge">10 USD</span></div>
+        <h3>Guardian II</h3>
+        <p>5% de probabilidad de invocar dos esqueletos aliados con armadura dorada, Power V y Flame.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-head"><span>07</span><span class="badge">8 USD</span></div>
+        <h3>Funny Slime III</h3>
+        <p>2% de probabilidad de invocar tres slimes hostiles junto al enemigo.</p>
+      </article>
+      <article class="card reveal">
+        <div class="card-head"><span>08</span><span class="badge">10 USD</span></div>
+        <h3>Backstab I</h3>
+        <p>Un golpe por la espalda inflige 6 de daño verdadero (3 corazones), sin requisito de armadura ni clase y con 3 segundos de cooldown.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="comandos">
+    <div class="sec-head reveal">
+      <span class="idx">03</span>
+      <h2>CUSTOM COMMANDS</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="grid g2">
+      <article class="card reveal">
+        <div class="card-head"><span>01</span><span class="badge">5 USD</span></div>
+        <h3 class="cmd-name">/shop</h3>
+        <p>Abre la tienda del servidor. Compra objetos, materiales y ventajas con la moneda del servidor desde cualquier lugar.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>ANARCHY XPERIMENT</span>
+  <span>MINECRAFT SERVER · CATÁLOGO OFICIAL</span>
+</footer>
+
+<script>
+(() => {
+  const canvas = document.getElementById('bg');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mouse = { x: -9999, y: -9999 };
+  const MAXD = 145, MAXD2 = MAXD * MAXD;
+  let w = 0, h = 0, dpr = 1, parts = [], raf = 0, running = false;
+
+  function init() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const count = Math.min(110, Math.max(36, Math.floor((w * h) / 17000)));
+    parts = new Array(count);
+    for (let i = 0; i < count; i++) {
+      parts[i] = {
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.38,
+        vy: (Math.random() - 0.5) * 0.38,
+        r: Math.random() * 1.5 + 0.6
+      };
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+
+      const dx = p.x - mouse.x, dy = p.y - mouse.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < 22000 && d2 > 0.01) {
+        const d = Math.sqrt(d2);
+        p.x += (dx / d) * 0.7;
+        p.y += (dy / d) * 0.7;
+      }
+    }
+
+    ctx.lineWidth = 1;
+    for (let i = 0; i < parts.length; i++) {
+      const a = parts[i];
+      for (let j = i + 1; j < parts.length; j++) {
+        const b = parts[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < MAXD2) {
+          const alpha = (1 - Math.sqrt(d2) / MAXD) * 0.34;
+          ctx.strokeStyle = 'rgba(255,255,255,' + alpha.toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    ctx.fillStyle = '#ffffff';
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts[i];
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, 6.283185307);
+      ctx.fill();
+    }
+  }
+
+  function loop() {
+    draw();
+    raf = requestAnimationFrame(loop);
+  }
+
+  function start() {
+    if (running || reduce) return;
+    running = true;
+    loop();
+  }
+
+  function stop() {
+    running = false;
+    cancelAnimationFrame(raf);
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  }, { passive: true });
+
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  let rt = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => {
+      init();
+      if (reduce) draw();
+    }, 160);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else start();
+  });
+
+  init();
+  if (reduce) draw();
+  else start();
+
+  const bar = document.getElementById('progress');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ')';
+      ticking = false;
+    });
+  }, { passive: true });
+
+  const items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    items.forEach((el) => {
+      const siblings = Array.from(el.parentElement.children);
+      const idx = siblings.indexOf(el);
+      el.style.transitionDelay = (Math.min(idx, 8) * 65) + 'ms';
+      io.observe(el);
+    });
+  } else {
+    items.forEach((el) => el.classList.add('in'));
+  }
+})();
+</script>
+</body>
+</html>
